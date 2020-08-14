@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Todo.Domain.Repositories;
+using Todo.Domain.Services;
+using Todo.Persistence.Contexts;
+using Todo.Persistence.Repositories;
+using Todo.Service;
 
 namespace Todo
 {
@@ -26,6 +26,14 @@ namespace Todo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<AppDbContext>(options => {
+                //options.UseInMemoryDatabase("todo-api-in-memory");
+                options.UseSqlite("Filename=TestDatabase.db");
+            });
+            services.AddScoped<ITodoRepository, TodoRepository>();
+            services.AddScoped<ITodoService, TodoService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +50,8 @@ namespace Todo
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            
         }
     }
 }
