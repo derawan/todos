@@ -1,14 +1,4 @@
-﻿/*
-        * Get All Todo’s - DONE
-        * Get Specific Todo
-        * Get Incoming ToDo (for today/next day/current week)
-        * Create Todo DONE
-        * Update Todo DONE
-        * Set Todo percent complete DONE
-        * Delete Todo DONE
-        * Mark Todo as Done DONE
-        */
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,6 +45,8 @@ namespace Todo.Controllers
 
             return resources;
         }
+
+
 
 
         /// <summary>
